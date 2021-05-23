@@ -1,5 +1,9 @@
 module FindPeaks
 
-greet() = print("Hello World!")
+import Base.isempty, Base.length
 
-end # module
+export Peaks, isempty, length
+
+include("Peaks.jl")
+
+end  # module
