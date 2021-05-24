@@ -1,5 +1,5 @@
 """
-`find_idx(data)`
+`findidx(data)`
 
 Find indices of peaks in `data`. For flat peaks, return only the lowest index.
 """
@@ -20,4 +20,36 @@ function find_idx(data)
         end
     end
     return idx
+end
+
+
+"""
+`find_peaks`
+
+**Arguments**
+- `data`: input signal vector.
+
+**Returns**
+- Struct `Peaks` holding the array of all found local maxima and their 
+    properties. The struct contains fields
+    - `pks`: loacal maxima.
+    - `locs`: peak locations.
+    - `w`: Peak widths.
+    - `p`: peak prominence.
+"""
+function find_peaks(data)
+
+    idx = find_idx(data)
+    
+    if isempty(idx)
+        T = eltype(data)
+        return Peaks(T[], Int64[], Int64[], T[])
+    end
+
+    pks = data[idx]
+    locs = idx
+    w = fill(-1, length(idx))
+    p = fill(NaN, length(idx))
+
+    return Peaks(pks, locs, w, p)
 end
