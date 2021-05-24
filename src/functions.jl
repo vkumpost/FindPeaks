@@ -1,9 +1,9 @@
 """
-`findidx(data)`
+`findidx(data::Vector)`
 
 Find indices of peaks in `data`. For flat peaks, return only the lowest index.
 """
-function find_idx(data)
+function find_idx(data::Vector)
     if any(isnan.(data))
         @warn "Data vector contains NaN values!"
     end
@@ -29,6 +29,9 @@ end
 **Arguments**
 - `data`: input signal vector.
 
+**Keyword Arguments**
+- `show_plot`: show found peaks and their properties in a plot. Default is `false`.
+
 **Returns**
 - Struct `Peaks` holding the array of all found local maxima and their 
     properties. The struct contains fields
@@ -37,19 +40,23 @@ end
     - `w`: Peak widths.
     - `p`: peak prominence.
 """
-function find_peaks(data)
+function find_peaks(data::Vector; show_plot = false)
 
+    # find peak indices
     idx = find_idx(data)
-    
-    if isempty(idx)
-        T = eltype(data)
-        return Peaks(T[], Int64[], Int64[], T[])
-    end
 
+    # create Peaks struct
     pks = data[idx]
     locs = idx
     w = fill(-1, length(idx))
     p = fill(NaN, length(idx))
+    peaks = Peaks(pks, locs, w, p)
 
-    return Peaks(pks, locs, w, p)
+    # show plot
+    if show_plot
+        plot_peaks(peaks, data)
+    end
+
+    return peaks
+
 end
