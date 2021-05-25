@@ -3,7 +3,7 @@
 
 Find indices of peaks in `data`. For flat peaks, return only the lowest index.
 """
-function find_idx(data::Vector)
+function findidx(data::Vector)
     if any(isnan.(data))
         @warn "Data vector contains NaN values!"
     end
@@ -24,7 +24,7 @@ end
 
 
 """
-`find_peaks`
+`findpeaks`
 
 **Arguments**
 - `data`: input signal vector.
@@ -40,10 +40,10 @@ end
     - `w`: Peak widths.
     - `p`: peak prominence.
 """
-function find_peaks(data::Vector; show_plot = false)
+function findpeaks(data::Vector; show_plot = false)
 
     # find peak indices
-    idx = find_idx(data)
+    idx = findidx(data)
 
     # create Peaks struct
     pks = data[idx]
@@ -54,7 +54,7 @@ function find_peaks(data::Vector; show_plot = false)
 
     # show plot
     if show_plot
-        plot_peaks(peaks, data)
+        plotpeaks(peaks, data)
     end
 
     return peaks

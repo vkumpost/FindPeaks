@@ -4,9 +4,9 @@ import Base.isempty, Base.length
 
 using Plots
 
-export find_idx, find_peaks
+export findidx, findpeaks
 
-export Peaks, isempty, length, plot_peaks
+export Peaks, isempty, length, plotpeaks
 
 include("functions.jl")
 include("Peaks.jl")

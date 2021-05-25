@@ -21,7 +21,7 @@ end
 
 Plot peaks on data.
 """
-function plot_peaks(peaks::Peaks, data::Vector)
+function plotpeaks(peaks::Peaks, data::Vector)
 
     pks = peaks.pks
     locs = peaks.locs
