@@ -4,7 +4,7 @@ import Base.isempty, Base.length
 
 using Plots
 
-export findidx, findp, findpeaks
+export findidx, findp, findwbounds, findpeaks
 
 export Peaks, isempty, length, plotpeaks
 

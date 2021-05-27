@@ -89,6 +89,56 @@ end
 
 
 """
+`findwbounds(data::Vector, idx::Vector, p::Vector)`
+
+Find width bounds for peaks at `idx` indicies of `data` vector and `p`
+prominences.
+"""
+function findwbounds(data::Vector, idx::Vector, p::Vector)
+
+    n_idx = length(idx)
+    w_bounds = Matrix{Float64}(undef, n_idx, 2)
+
+    for i_idx = 1:n_idx
+
+        current_idx = idx[i_idx]
+        pk = data[current_idx]  # peak
+        w_ref = pk - p[i_idx] * 0.5  # reference height for width measurements
+
+        # find point to the left from the peak where w_ref intersect data
+        left_index = 1
+        for i = current_idx:-1:2
+            x1 = data[i]
+            x2 = data[i-1]
+            if x2 <= w_ref <= x1
+                # interpolate the precise point
+                left_index = i - (i - i + 1) / (x2 - x1) * (w_ref - x1)
+                break
+            end
+        end
+
+        # find point to the right from the peak where w_ref intersect data
+        right_index = length(data)
+        for i = current_idx:1:length(data)-1
+            x1 = data[i]
+            x2 = data[i+1]
+            if x2 <= w_ref <= x1
+                # interpolate the precise point
+                right_index = (i - i + 1) / (x2 - x1) * (w_ref - x1) + i
+                break
+            end
+        end
+
+        w_bounds[i_idx, :] = [left_index, right_index]
+
+    end
+
+    return w_bounds
+
+end
+
+
+"""
 `findpeaks`
 
 **Arguments**
