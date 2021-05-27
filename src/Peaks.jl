@@ -16,18 +16,25 @@ function length(peaks::Peaks)
 end
 
 
-"""
-`plot_peaks(peaks::Peaks, data::Vector)`
+@recipe function f(peaks::Peaks, data::Vector)
 
-Plot peaks on data.
-"""
-function plotpeaks(peaks::Peaks, data::Vector)
+    x = 1:length(data)
+    y = data
 
-    pks = peaks.pks
     locs = peaks.locs
+    pks = peaks.pks
 
-    p = plot(data, label = "Data", color = :black)
-    plot!(p, locs, pks, seriestype = :scatter, label = "Peaks", color = :red)
-    display(p)
+    @series begin
+        seriescolor := :black
+        label := "Data"
+        x, y
+    end
+
+    @series begin
+        seriestype := :scatter
+        seriescolor := :red
+        label := "Peaks"
+        locs, pks
+    end
 
 end
