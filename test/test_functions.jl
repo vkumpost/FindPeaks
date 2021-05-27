@@ -1,5 +1,13 @@
 @testset "findidx, findp, and findwbounds" begin
 
+    data = [0, 0, 0, 0, 1, 1, 1, 1]
+    idx = findidx(data)
+    p = findp(data, idx)
+    w_bounds = findwbounds(data, idx, p)
+    @test isempty(idx)
+    @test isempty(p)
+    @test isempty(w_bounds)
+
     data = [0, 0, 0, 1, 0, 0, 0]
     idx = findidx(data)
     p = findp(data, idx)
@@ -28,7 +36,6 @@
     idx = findidx(data)
     p = findp(data, idx)
     w_bounds = findwbounds(data, idx, p)
-    println(w_bounds)
     @test idx == [3, 5]
     @test all(p .≈ [Inf, 4.0])
     @test all(w_bounds .≈ [1.0 7.0; 4.5 5.0])
