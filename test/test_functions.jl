@@ -1,16 +1,28 @@
-@testset "findidx" begin
+@testset "findidx and findp" begin
 
     data = [0, 0, 0, 1, 0, 0, 0]
-    @test findidx(data) == [4]
+    idx = findidx(data)
+    p = findp(data, idx)
+    @test idx == [4]
+    @test p == [1]
 
     data = [0, 0, 1, 1, 1, 0, 0]
-    @test findidx(data) == [3]
+    idx = findidx(data)
+    p = findp(data, idx)
+    @test idx == [3]
+    @test p == [1]
 
     data = [0, 1, 2, 3, 2, 1, 0, 1, 2, 2, 2, 0, 3, 3, 5, 4, 0]
-    @test findidx(data) == [4, 9, 15]
+    idx = findidx(data)
+    p = findp(data, idx)
+    @test idx == [4, 9, 15]
+    @test p == [3, 2, 5]
 
     data = [Inf, -14.4, Inf, 14.0, 18.1, -Inf, 12.3]
-    @test findidx(data) == [3, 5]
+    idx = findidx(data)
+    p = findp(data, idx)
+    @test idx == [3, 5]
+    @test all(p .≈ [Inf, 4.1])
 
     data = [1, NaN, 3, 2, NaN, 1]
     @test_logs (:warn,) findidx(data)
