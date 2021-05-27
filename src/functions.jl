@@ -38,6 +38,57 @@ end
 
 
 """
+`findp(data::Vector, idx::Vector)`
+
+Find prominence for peaks at `idx` indicies of `data` vector.
+"""
+function findp(data::Vector, idx::Vector)
+    
+    # number of peaks and vector of peak prominences
+    n_idx = length(idx)  
+    p = typeof(data)(undef, n_idx)
+
+    # iterate peak indicies
+    for i_idx = 1:n_idx
+
+        # current peak index and peak value
+        current_idx = idx[i_idx]  
+        peak_value = data[current_idx]
+
+        # find the closest local minimum to the left from the peak
+        left_index = 1
+        for i = i_idx-1:-1:1
+            if peak_value < data[idx[i]]
+                left_index = idx[i]
+                break                
+            end
+        end
+        left_minimum = minimum(data[left_index:idx[i_idx]])
+
+        # find the closest local minimum to the right from the peak
+        right_index = length(data)
+        for i = i_idx+1:1:n_idx
+            if peak_value < data[idx[i]]
+                right_index = idx[i]
+                break                
+            end
+        end
+        right_minimum = minimum(data[idx[i_idx]:right_index])
+
+        # the higest of the two minima is a reference
+        reference = max(left_minimum, right_minimum)
+
+        # prominence
+        p[i_idx] = peak_value - reference
+
+    end    
+
+    return p
+    
+end
+
+
+"""
 `findpeaks`
 
 **Arguments**
