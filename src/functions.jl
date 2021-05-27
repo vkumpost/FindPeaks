@@ -163,8 +163,9 @@ function findpeaks(data::Vector; show_plot = false)
     # create Peaks struct
     pks = data[idx]
     locs = idx
-    w = fill(-1, length(idx))
-    p = fill(NaN, length(idx))
+    p = findp(data, idx)
+    w_bounds = findwbounds(data, idx, p)
+    w = [diff(w_bounds, dims = 2)...]
     peaks = Peaks(pks, locs, w, p)
 
     # show plot
