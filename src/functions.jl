@@ -114,7 +114,7 @@ function findwbounds(data, x, idx, p)
                 # interpolate the precise point
                 x1 = x[i]
                 xdiff = x1 - x[i-1]
-                left_index = x1 - (x1 - x1 + xdiff) / (y2 - y1) * (w_ref - y1)
+                left_index = x1 - xdiff / (y2 - y1) * (w_ref - y1)
                 break
             end
         end
@@ -128,7 +128,7 @@ function findwbounds(data, x, idx, p)
                 # interpolate the precise point
                 x1 = x[i]
                 xdiff = x[i+1] - x1
-                right_index = (x1 - x1 + xdiff) / (y2 - y1) * (w_ref - y1) + x1
+                right_index = x1 + xdiff / (y2 - y1) * (w_ref - y1)
                 break
             end
         end
@@ -161,7 +161,7 @@ function findpeaks(data::Vector)
 
     # location vector
     x = 1:length(data)
-    
+
     # find peak indices
     idx = findidx(data)
 
