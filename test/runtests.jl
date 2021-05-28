@@ -1,4 +1,5 @@
 using Test
+using Plots
 using FindPeaks
 
 @testset "Tests" begin

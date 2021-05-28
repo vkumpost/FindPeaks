@@ -20,3 +20,12 @@ end
     @test length(peaks) == 0
 
 end
+
+@testset "plot" begin
+
+    data = [1, 2, 3, 2, 1, 2, 3, 2, 1, 2, 3, 2, 1]
+    peaks = findpeaks(data)
+    p = plot(peaks, data)
+    @test p.n == 8
+
+end
