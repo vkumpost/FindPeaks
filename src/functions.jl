@@ -55,7 +55,7 @@ function findp(data::Vector, idx::Vector)
         current_idx = idx[i_idx]  
         peak_value = data[current_idx]
 
-        # find the closest local minimum to the left from the peak
+        # run left until a value higher than the current peak is reached
         left_index = 1
         for i = i_idx-1:-1:1
             if peak_value < data[idx[i]]
@@ -63,9 +63,11 @@ function findp(data::Vector, idx::Vector)
                 break                
             end
         end
+
+        # find minimum of the left interval
         left_minimum = minimum(data[left_index:idx[i_idx]])
 
-        # find the closest local minimum to the right from the peak
+        # run right until a value higher than the current peak is reached
         right_index = length(data)
         for i = i_idx+1:1:n_idx
             if peak_value < data[idx[i]]
@@ -73,15 +75,17 @@ function findp(data::Vector, idx::Vector)
                 break                
             end
         end
+
+        # find minimum of the right interval
         right_minimum = minimum(data[idx[i_idx]:right_index])
 
-        # the higest of the two minima is a reference
-        reference = max(left_minimum, right_minimum)
+        # the higest of the two minima is a reference point
+        reference_point = max(left_minimum, right_minimum)
 
         # prominence
-        p[i_idx] = peak_value - reference
+        p[i_idx] = peak_value - reference_point
 
-    end    
+    end
 
     return p
     
