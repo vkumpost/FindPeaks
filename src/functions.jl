@@ -89,12 +89,12 @@ end
 
 
 """
-`findwbounds(data::Vector, idx::Vector, p::Vector)`
+`findwbounds(data, x, idx, p)`
 
-Find width bounds for peaks at `idx` indicies of `data` vector and `p`
-prominences.
+Find width bounds for peaks in `data` vector. `x` is location vector for `data`.
+`idx` and `p` are peak indicies and prominences.
 """
-function findwbounds(data::Vector, idx::Vector, p::Vector)
+function findwbounds(data, x, idx, p)
 
     n_idx = length(idx)
     w_bounds = Matrix{Float64}(undef, n_idx, 2)
@@ -108,11 +108,13 @@ function findwbounds(data::Vector, idx::Vector, p::Vector)
         # find point to the left from the peak where w_ref intersect data
         left_index = 1
         for i = current_idx:-1:2
-            x1 = data[i]
-            x2 = data[i-1]
-            if x2 <= w_ref <= x1
+            y1 = data[i]
+            y2 = data[i-1]
+            if y2 <= w_ref <= y1
                 # interpolate the precise point
-                left_index = i - (i - i + 1) / (x2 - x1) * (w_ref - x1)
+                x1 = x[i]
+                xdiff = x1 - x[i-1]
+                left_index = x1 - (x1 - x1 + xdiff) / (y2 - y1) * (w_ref - y1)
                 break
             end
         end
@@ -120,11 +122,13 @@ function findwbounds(data::Vector, idx::Vector, p::Vector)
         # find point to the right from the peak where w_ref intersect data
         right_index = length(data)
         for i = current_idx:1:length(data)-1
-            x1 = data[i]
-            x2 = data[i+1]
-            if x2 <= w_ref <= x1
+            y1 = data[i]
+            y2 = data[i+1]
+            if y2 <= w_ref <= y1
                 # interpolate the precise point
-                right_index = (i - i + 1) / (x2 - x1) * (w_ref - x1) + i
+                x1 = x[i]
+                xdiff = x[i+1] - x1
+                right_index = (x1 - x1 + xdiff) / (y2 - y1) * (w_ref - y1) + x1
                 break
             end
         end
@@ -155,6 +159,9 @@ end
 """
 function findpeaks(data::Vector)
 
+    # location vector
+    x = 1:length(data)
+    
     # find peak indices
     idx = findidx(data)
 
@@ -162,7 +169,7 @@ function findpeaks(data::Vector)
     pks = data[idx]
     locs = idx
     p = findp(data, idx)
-    w_bounds = findwbounds(data, idx, p)
+    w_bounds = findwbounds(data, x, idx, p)
     w = [diff(w_bounds, dims = 2)...]
     peaks = Peaks(idx, pks, locs, w, p)
 
