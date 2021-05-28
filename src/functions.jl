@@ -166,7 +166,7 @@ function findpeaks(data::Vector; show_plot = false)
     p = findp(data, idx)
     w_bounds = findwbounds(data, idx, p)
     w = [diff(w_bounds, dims = 2)...]
-    peaks = Peaks(pks, locs, w, p)
+    peaks = Peaks(idx, pks, locs, w, p)
 
     # show plot
     if show_plot

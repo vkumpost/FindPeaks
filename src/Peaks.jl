@@ -1,5 +1,6 @@
 struct Peaks
-    pks::Vector  # Local maxima
+    idx::Vector  # Peak indicies
+    pks::Vector  # Peak amplitude
     locs::Vector  # Peak locations
     w::Vector  # Peak widths
     p::Vector  # Peak prominences
@@ -7,12 +8,12 @@ end
 
 
 function isempty(peaks::Peaks)
-    return isempty(peaks.locs)
+    return isempty(peaks.idx)
 end
 
 
 function length(peaks::Peaks)
-    return length(peaks.locs)
+    return length(peaks.idx)
 end
 
 
@@ -21,7 +22,7 @@ end
     x = 1:length(data)
     y = data
 
-    locs = peaks.locs
+    idx = peaks.idx
     pks = peaks.pks
 
     @series begin
@@ -34,7 +35,7 @@ end
         seriestype := :scatter
         seriescolor := :red
         label := "Peaks"
-        locs, pks
+        idx, pks
     end
 
 end
