@@ -147,9 +147,10 @@ end
 **Returns**
 - Struct `Peaks` holding the array of all found local maxima and their 
     properties. The struct contains fields
-    - `pks`: loacal maxima.
+    - `idx`: peak indices.
+    - `pks`: local maxima.
     - `locs`: peak locations.
-    - `w`: Peak widths.
+    - `w`: peak widths.
     - `p`: peak prominence.
 """
 function findpeaks(data::Vector)
