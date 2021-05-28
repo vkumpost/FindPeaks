@@ -144,9 +144,6 @@ end
 **Arguments**
 - `data`: input signal vector.
 
-**Keyword Arguments**
-- `show_plot`: show found peaks and their properties in a plot. Default is `false`.
-
 **Returns**
 - Struct `Peaks` holding the array of all found local maxima and their 
     properties. The struct contains fields
@@ -155,7 +152,7 @@ end
     - `w`: Peak widths.
     - `p`: peak prominence.
 """
-function findpeaks(data::Vector; show_plot = false)
+function findpeaks(data::Vector)
 
     # find peak indices
     idx = findidx(data)
@@ -167,11 +164,6 @@ function findpeaks(data::Vector; show_plot = false)
     w_bounds = findwbounds(data, idx, p)
     w = [diff(w_bounds, dims = 2)...]
     peaks = Peaks(idx, pks, locs, w, p)
-
-    # show plot
-    if show_plot
-        plotpeaks(peaks, data)
-    end
 
     return peaks
 
