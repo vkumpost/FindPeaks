@@ -48,7 +48,7 @@ function findprominences(data::Vector, indices::Vector)
     n_indices = length(indices)  
     prominences = typeof(data)(undef, n_indices)
 
-    # iterate peak indicies
+    # iterate peak indices
     for i_index = 1:n_indices
 
         # current peak index and peak value
