@@ -178,7 +178,7 @@ function findpeaks(data::Vector; minprominence = 0.0)
     prominences = findprominences(data, indices)
 
     # apply minimal prominence criterium
-    ind = prominences .> minprominence
+    ind = prominences .>= minprominence
     indices = indices[ind]
     peaks = peaks[ind]
     locations = locations[ind]
