@@ -148,16 +148,19 @@ end
 
 
 """
-`findpeaks`
+`findpeaks(data::Vector)`
 
 **Arguments**
 - `data`: input signal vector.
+
+***Keyword Arguments*
+- `minprominence`: Minimum peak prominence. Default is 0.
 
 **Returns**
 - Struct `Peaks` holding the array of all found local maxima and their 
     properties.
 """
-function findpeaks(data::Vector)
+function findpeaks(data::Vector; minprominence = 0.0)
 
     # location vector
     x = 1:length(data)
@@ -173,6 +176,13 @@ function findpeaks(data::Vector)
 
     # find peak prominences
     prominences = findprominences(data, indices)
+
+    # apply minimal prominence criterium
+    ind = prominences .> minprominence
+    indices = indices[ind]
+    peaks = peaks[ind]
+    locations = locations[ind]
+    prominences = prominences[ind]
 
     # find peak width bounds
     width_bounds = findwidthbounds(data, x, indices, prominences)
