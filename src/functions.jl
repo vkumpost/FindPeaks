@@ -177,15 +177,16 @@ function findpeaks(data::Vector; minprominence = 0.0)
     # find peak prominences
     prominences = findprominences(data, indices)
 
+    # find peak width bounds
+    width_bounds = findwidthbounds(data, x, indices, prominences)
+
     # apply minimal prominence criterium
     ind = prominences .>= minprominence
     indices = indices[ind]
     peaks = peaks[ind]
     locations = locations[ind]
     prominences = prominences[ind]
-
-    # find peak width bounds
-    width_bounds = findwidthbounds(data, x, indices, prominences)
+    width_bounds = width_bounds[ind, :]
 
     # create Peaks struct
     pr = PeakResults(indices, peaks, locations, prominences, width_bounds)
