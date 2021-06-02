@@ -10,7 +10,7 @@ using FindPeaks
     end
 
     @testset "Peaks" begin
-        include("test_Peaks.jl")
+        include("test_PeakResults.jl")
     end
 
 end
