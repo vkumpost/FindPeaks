@@ -160,7 +160,7 @@ end
 - Struct `Peaks` holding the array of all found local maxima and their 
     properties.
 """
-function findpeaks(data::Vector; minprominence = 0.0)
+function findpeaks(data::Vector; kwargs...)
 
     # location vector
     x = 1:length(data)
@@ -181,12 +181,14 @@ function findpeaks(data::Vector; minprominence = 0.0)
     width_bounds = findwidthbounds(data, x, indices, prominences)
 
     # apply minimal prominence criterium
-    ind = prominences .>= minprominence
-    indices = indices[ind]
-    peaks = peaks[ind]
-    locations = locations[ind]
-    prominences = prominences[ind]
-    width_bounds = width_bounds[ind, :]
+    if :minprominence in keys(kwargs)
+        ind = prominences .>= kwargs[:minprominence]
+        indices = indices[ind]
+        peaks = peaks[ind]
+        locations = locations[ind]
+        prominences = prominences[ind]
+        width_bounds = width_bounds[ind, :]
+    end
 
     # create Peaks struct
     pr = PeakResults(indices, peaks, locations, prominences, width_bounds)
