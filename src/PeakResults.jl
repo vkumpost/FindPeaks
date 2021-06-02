@@ -7,16 +7,26 @@ struct PeakResults
 end
 
 
+"""
+Return `true` if `pr` does not contain any peaks.
+"""
 function isempty(pr::PeakResults)
     return isempty(pr.indices)
 end
 
 
+"""
+Return the number of peaks in `pr`.
+"""
 function length(pr::PeakResults)
     return length(pr.indices)
 end
 
 
+"""
+A recipe for Plots.jl to visualize peaks and their properties and underlying 
+data.
+"""
 @recipe function f(pr::PeakResults, data::Vector)
 
     x = 1:length(data)
