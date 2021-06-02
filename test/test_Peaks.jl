@@ -1,31 +1,31 @@
-@testset "structure" begin
+@testset "Struct" begin
 
-    peaks = Peaks([0, 9], [1, 2], [3, 4], [5, 6], [7, 8])
-    @test peaks.idx == [0, 9]
-    @test peaks.pks == [1, 2]
-    @test peaks.locs == [3, 4]
-    @test peaks.w == [5, 6]
-    @test peaks.p == [7, 8]
+    pr = PeakResults([0, 9], [1, 2], [3, 4], [5, 6], [1 2; 3 4])
+    @test pr.indices == [0, 9]
+    @test pr.peaks == [1, 2]
+    @test pr.locations == [3, 4]
+    @test pr.prominences == [5, 6]
+    @test pr.width_bounds == [1 2; 3 4]
 
 end
 
-@testset "functions" begin
+@testset "Basic functions" begin
 
-    peaks = Peaks([0, 9], [1, 2], [3, 4], [5, 6], [7, 8])
-    @test !isempty(peaks)
-    @test length(peaks) == 2
+    pr = PeakResults([0, 9], [1, 2], [3, 4], [5, 6], [1 2; 3 4])
+    @test !isempty(pr)
+    @test length(pr) == 2
 
-    peaks = Peaks([], [], [], [], [])
-    @test isempty(peaks)
-    @test length(peaks) == 0
+    pr = PeakResults([], [], [], [], reshape([], 0, 2))
+    @test isempty(pr)
+    @test length(pr) == 0
 
 end
 
 @testset "plot" begin
 
     data = [1, 2, 3, 2, 1, 2, 3, 2, 1, 2, 3, 2, 1]
-    peaks = findpeaks(data)
-    p = plot(peaks, data)
+    pr = findpeaks(data)
+    p = plot(pr, data)
     @test p.n == 8
 
 end

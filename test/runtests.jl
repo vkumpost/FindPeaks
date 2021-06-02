@@ -1,3 +1,4 @@
+using Base: Indices
 using Test
 using Plots
 using FindPeaks

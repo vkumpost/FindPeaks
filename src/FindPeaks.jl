@@ -4,11 +4,11 @@ import Base.isempty, Base.length
 
 using RecipesBase
 
-export findidx, findp, findwbounds, findpeaks
+export findindices, findprominences, findwidthbounds, findpeaks
 
-export Peaks, isempty, length
+export PeakResults, isempty, length
 
 include("functions.jl")
-include("Peaks.jl")
+include("PeakResults.jl")
 
 end  # module
