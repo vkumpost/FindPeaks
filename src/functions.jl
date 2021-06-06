@@ -154,7 +154,8 @@ end
 - `data`: input signal vector.
 
 ***Keyword Arguments*
-- `minprominence`: Minimum peak prominence. Default is 0.
+- `npeaks`: Maximum number of peaks to return.
+- `minprominence`: Minimum peak prominence.
 
 **Returns**
 - Struct `Peaks` holding the array of all found local maxima and their 
@@ -179,6 +180,18 @@ function findpeaks(data::Vector; kwargs...)
 
     # find peak width bounds
     width_bounds = findwidthbounds(data, x, indices, prominences)
+
+    # select demanded number of peaks
+    if :npeaks in keys(kwargs)
+        npeaks = kwargs[:npeaks]
+        n = length(indices)
+        maxind = min(n, npeaks)
+        indices = indices[1:maxind]
+        peaks = peaks[1:maxind]
+        locations = locations[1:maxind]
+        prominences = prominences[1:maxind]
+        width_bounds = width_bounds[1:maxind, :]
+    end
 
     # apply minimal prominence criterium
     if :minprominence in keys(kwargs)
