@@ -40,13 +40,13 @@ data.
 
     for i = 1:n
         @series begin
-            seriescolor := :orange
+            seriescolor := :red
             label := "Prominence"
             primary := i == 1
             [indices[i], indices[i]], [peaks[i], peaks[i]-prominences[i]]
         end
         @series begin
-            seriescolor := :gray
+            seriescolor := :blue
             label := "Width"
             primary := i == 1
             [width_bounds[i, 1], width_bounds[i, 2]],
