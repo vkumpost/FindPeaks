@@ -181,6 +181,16 @@ function findpeaks(data::Vector; kwargs...)
     # find peak width bounds
     width_bounds = findwidthbounds(data, x, indices, prominences)
 
+    # apply minimal prominence criterium
+    if :minprominence in keys(kwargs)
+        ind = prominences .>= kwargs[:minprominence]
+        indices = indices[ind]
+        peaks = peaks[ind]
+        locations = locations[ind]
+        prominences = prominences[ind]
+        width_bounds = width_bounds[ind, :]
+    end
+
     # select demanded number of peaks
     if :npeaks in keys(kwargs)
         npeaks = kwargs[:npeaks]
@@ -191,16 +201,6 @@ function findpeaks(data::Vector; kwargs...)
         locations = locations[1:maxind]
         prominences = prominences[1:maxind]
         width_bounds = width_bounds[1:maxind, :]
-    end
-
-    # apply minimal prominence criterium
-    if :minprominence in keys(kwargs)
-        ind = prominences .>= kwargs[:minprominence]
-        indices = indices[ind]
-        peaks = peaks[ind]
-        locations = locations[ind]
-        prominences = prominences[ind]
-        width_bounds = width_bounds[ind, :]
     end
 
     # create Peaks struct
