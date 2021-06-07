@@ -24,6 +24,21 @@ end
 
 
 """
+`getindex(pr::PeakResults, inds)`
+
+Return a subset of `pr` as specified by `inds`.
+"""
+function getindex(pr::PeakResults, inds)
+    indices = pr.indices[inds]
+    peaks = pr.peaks[inds]
+    locations = pr.locations[inds]
+    prominences = pr.prominences[inds]
+    width_bounds = pr.width_bounds[inds, :]
+    return PeakResults(indices, peaks, locations, prominences, width_bounds)
+end
+
+
+"""
 A recipe for Plots.jl to visualize peaks and their properties and underlying 
 data.
 """

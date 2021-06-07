@@ -148,13 +148,15 @@ end
 
 
 """
-`findpeaks(data::Vector)`
+`findpeaks(data::Vector; kwargs...)`
 
 **Arguments**
 - `data`: input signal vector.
 
-***Keyword Arguments*
+**Keyword Arguments**
 - `npeaks`: Maximum number of peaks to return.
+- (TO-DO) `sortstr`: Sort peaks. Possible options are "ascend" (the smallest
+    peak first) or "descend" (the largest peak first).
 - `minprominence`: Minimum peak prominence.
 
 **Returns**
