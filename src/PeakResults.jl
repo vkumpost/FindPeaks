@@ -8,6 +8,8 @@ end
 
 
 """
+`isempty(pr::PeakResults)`
+
 Return `true` if `pr` does not contain any peaks.
 """
 function isempty(pr::PeakResults)
@@ -16,6 +18,8 @@ end
 
 
 """
+`length(pr::PeakResults)`
+
 Return the number of peaks in `pr`.
 """
 function length(pr::PeakResults)
@@ -40,7 +44,7 @@ end
 
 """
 A recipe for Plots.jl to visualize peaks and their properties and underlying 
-data.
+    data.
 """
 @recipe function f(pr::PeakResults, data::Vector)
 
