@@ -148,7 +148,7 @@ end
 
 
 """
-`indpeaks(data::Vector, x = 1:length(data); kwargs...)`
+`indpeaks(data::Vector, x=1:length(data); kwargs...)`
 
 **Arguments**
 - `data`: Input signal vector.
@@ -158,7 +158,7 @@ end
 
 **Keyword Arguments**
 - `npeaks`: Maximum number of peaks to return.
-- (TO-DO) `sortstr`: Sort peaks. Possible options are "ascend" (the smallest
+- `sortstr`: Sort peaks. Possible options are "ascend" (the smallest
     peak first) or "descend" (the largest peak first).
 - `minprominence`: Minimum peak prominence.
 
@@ -166,7 +166,7 @@ end
 - Struct `Peaks` holding the array of all found local maxima and their 
     properties.
 """
-function findpeaks(data::Vector, x = 1:length(data); kwargs...)
+function findpeaks(data::Vector, x=1:length(data); kwargs...)
 
     # find peak indices
     indices = findindices(data)
@@ -190,6 +190,16 @@ function findpeaks(data::Vector, x = 1:length(data); kwargs...)
     if :minprominence in keys(kwargs)
         inds = prominences .>= kwargs[:minprominence]
         pr = pr[inds]
+    end
+
+    # sort peaks
+    if :sortstr in keys(kwargs)
+        sortstr = kwargs[:sortstr]
+        if sortstr == "ascend"
+            pr = sort(pr)
+        elseif sortstr == "descend"
+            pr = sort(pr; rev=true)
+        end
     end
 
     # select demanded number of peaks
