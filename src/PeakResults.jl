@@ -43,10 +43,26 @@ end
 
 
 """
+`sort(pr::PeakResults; rev::Bool=false)`
+
+Return sorted `pr` with peaks sorted from lowest to highest. Use `rev = true` to
+    reverse the sorting order.
+"""
+function sort(pr::PeakResults; rev::Bool=false)
+
+    peaks = pr.peaks
+    inds = sortperm(peaks; rev = rev)
+    pr_sorted = pr[inds]
+    return pr_sorted
+
+end
+
+
+"""
 A recipe for Plots.jl to visualize peaks and their properties and underlying 
     data.
 """
-@recipe function f(pr::PeakResults, data, x = 1:length(data))
+@recipe function f(pr::PeakResults, data, x=1:length(data))
 
     y = data
 
