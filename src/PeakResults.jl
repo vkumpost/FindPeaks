@@ -46,13 +46,12 @@ end
 A recipe for Plots.jl to visualize peaks and their properties and underlying 
     data.
 """
-@recipe function f(pr::PeakResults, data::Vector)
+@recipe function f(pr::PeakResults, data, x = 1:length(data))
 
-    x = 1:length(data)
     y = data
 
-    indices = pr.indices
     peaks = pr.peaks
+    locations = pr.locations
     prominences = pr.prominences
     width_bounds = pr.width_bounds
     n = length(peaks)
@@ -62,7 +61,7 @@ A recipe for Plots.jl to visualize peaks and their properties and underlying
             seriescolor := :red
             label := "Prominence"
             primary := i == 1
-            [indices[i], indices[i]], [peaks[i], peaks[i]-prominences[i]]
+            [locations[i], locations[i]], [peaks[i], peaks[i]-prominences[i]]
         end
         @series begin
             seriescolor := :blue
@@ -84,7 +83,7 @@ A recipe for Plots.jl to visualize peaks and their properties and underlying
         seriescolor := :red
         label := "Peaks"
         legend := false
-        indices, peaks
+        locations, peaks
     end
 
 end
