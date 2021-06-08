@@ -148,10 +148,13 @@ end
 
 
 """
-`findpeaks(data::Vector; kwargs...)`
+`indpeaks(data::Vector, x = 1:length(data); kwargs...)`
 
 **Arguments**
-- `data`: input signal vector.
+- `data`: Input signal vector.
+
+**Optional Arguments**
+- `x`: Locations for the input signal vector.
 
 **Keyword Arguments**
 - `npeaks`: Maximum number of peaks to return.
@@ -163,10 +166,7 @@ end
 - Struct `Peaks` holding the array of all found local maxima and their 
     properties.
 """
-function findpeaks(data::Vector; kwargs...)
-
-    # location vector
-    x = 1:length(data)
+function findpeaks(data::Vector, x = 1:length(data); kwargs...)
 
     # find peak indices
     indices = findindices(data)
@@ -175,7 +175,7 @@ function findpeaks(data::Vector; kwargs...)
     peaks = data[indices]
 
     # get locations
-    locations = indices
+    locations = x[indices]
 
     # find peak prominences
     prominences = findprominences(data, indices)
