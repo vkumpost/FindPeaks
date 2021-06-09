@@ -21,6 +21,16 @@ end
 
 
 """
+`widths(pr::PeakResults)`
+
+Return peak widths.
+"""
+function widths(pr::PeakResults)
+    return [diff(pr.width_bounds, dims = 2)...]
+end
+
+
+"""
 `isempty(pr::PeakResults)`
 
 Return `true` if `pr` does not contain any peaks.

@@ -6,7 +6,7 @@ using RecipesBase
 
 export findindices, findprominences, findwidthbounds, findpeaks
 
-export PeakResults, isempty, length, getindex, sort
+export PeakResults, widths, isempty, length, getindex, sort
 
 include("functions.jl")
 include("PeakResults.jl")
