@@ -148,12 +148,12 @@ end
 
 
 """
-`indpeaks(data::Vector, x=1:length(data); kwargs...)`
+`findpeaks(data::Vector, x=1:length(data); kwargs...)`
 
-**Arguments**
+**Argument**
 - `data`: Input signal vector.
 
-**Optional Arguments**
+**Optional Argument**
 - `x`: Locations for the input signal vector.
 
 **Keyword Arguments**
@@ -161,10 +161,10 @@ end
 - `sortstr`: Sort peaks. Possible options are "ascend" (the smallest
     peak first) or "descend" (the largest peak first).
 - `minprominence`: Minimum peak prominence.
+- (TO-DO) `mindistance`: Minimum distance between neighbouring peaks.
 
 **Returns**
-- Struct `Peaks` holding the array of all found local maxima and their 
-    properties.
+- Struct `PeakResults` holding an array of all peaks and their properties.
 """
 function findpeaks(data::Vector, x=1:length(data); kwargs...)
 
@@ -188,7 +188,39 @@ function findpeaks(data::Vector, x=1:length(data); kwargs...)
 
     # apply minimal prominence criterium
     if :minprominence in keys(kwargs)
-        inds = prominences .>= kwargs[:minprominence]
+        minprominence = kwargs[:minprominence]
+        inds = prominences .>= minprominence
+        pr = pr[inds]
+    end
+
+    # apply minimal distance criterium
+    if :mindistance in keys(kwargs)
+
+        mindistance = kwargs[:mindistance]
+
+        pr_remaining = pr
+        selected_indices = []  # indices of selected peaks
+        while !isempty(pr_remaining)
+        
+            # extract needed peak properties
+            peaks = pr_remaining.peaks
+            indices = pr_remaining.indices
+            locations = pr_remaining.locations
+        
+            # select the highest peak
+            index_maxpeak = argmax(peaks)
+            push!(selected_indices, indices[index_maxpeak])
+        
+            # remove all peaks that are closer than mindistance to the selected peak
+            location = locations[index_maxpeak]
+            inds = abs.(locations .- location) .>= mindistance
+            pr_remaining = pr_remaining[inds]
+        
+        end
+        
+        # select a subset of pr based on the selected indices
+        sort!(selected_indices)
+        inds = [x in selected_indices for x in pr.indices]
         pr = pr[inds]
     end
 
