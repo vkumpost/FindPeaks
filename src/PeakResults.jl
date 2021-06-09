@@ -1,6 +1,19 @@
+"""
+`PeakResults`
+
+This struct holds peak properties.
+
+**Fields**
+- `indices`: Vector of peak indices.
+- `peaks`: Vector of peak values.
+- `locations`: Vector of peak locations.
+- `prominences`: Vector of peak prominences.
+- `width_bounds`: Matrix with two columns indicating the beginnings and the ends
+    of the peak widths.
+"""
 struct PeakResults
     indices::Vector  # Peak indices
-    peaks::Vector  # Peak value
+    peaks::Vector  # Peak values
     locations::Vector  # Peak locations
     prominences::Vector  # Prominences
     width_bounds::Matrix  # Width bounds
