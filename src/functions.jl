@@ -161,7 +161,7 @@ end
 - `sortstr`: Sort peaks. Possible options are "ascend" (the smallest
     peak first) or "descend" (the largest peak first).
 - `minprominence`: Minimum peak prominence.
-- (TO-DO) `mindistance`: Minimum distance between neighbouring peaks.
+- `mindistance`: Minimum distance between neighbouring peaks.
 
 **Returns**
 - Struct `PeakResults` holding an array of all peaks and their properties.
