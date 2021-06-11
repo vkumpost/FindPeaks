@@ -160,6 +160,7 @@ end
 - `npeaks`: Maximum number of peaks to return.
 - `sortstr`: Sort peaks. Possible options are "ascend" (the smallest
     peak first) or "descend" (the largest peak first).
+- `minheight`: Minimum peak height.
 - `minprominence`: Minimum peak prominence.
 - `mindistance`: Minimum distance between neighbouring peaks.
 
@@ -186,9 +187,18 @@ function findpeaks(data::Vector, x=1:length(data); kwargs...)
     # create Peaks struct
     pr = PeakResults(indices, peaks, locations, prominences, width_bounds)
 
+    # apply minimum height criterium
+    if :minheight in keys(kwargs)
+        minheight = kwargs[:minheight]
+        peaks = pr.peaks
+        inds = peaks .>= minheight
+        pr = pr[inds]
+    end
+
     # apply minimal prominence criterium
     if :minprominence in keys(kwargs)
         minprominence = kwargs[:minprominence]
+        prominences = pr.prominences
         inds = prominences .>= minprominence
         pr = pr[inds]
     end
