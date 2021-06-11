@@ -9,6 +9,14 @@
 
 end
 
+@testset "peakwidths" begin
+    
+    pr = PeakResults([0, 9], [1, 2], [3, 4], [5, 6], [1 2; 3 8])
+    widths = peakwidths(pr)
+    @test widths == [1, 5]
+
+end
+
 @testset "isempty" begin
 
     pr = PeakResults([0, 9], [1, 2], [3, 4], [5, 6], [1 2; 3 4])
