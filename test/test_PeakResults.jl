@@ -1,4 +1,4 @@
-@testset "Struct" begin
+@testset "PeakResults" begin
 
     pr = PeakResults([0, 9], [1, 2], [3, 4], [5, 6], [1 2; 3 4])
     @test pr.indices == [0, 9]
@@ -9,7 +9,7 @@
 
 end
 
-@testset "Basic functions" begin
+@testset "isempty" begin
 
     pr = PeakResults([0, 9], [1, 2], [3, 4], [5, 6], [1 2; 3 4])
     @test !isempty(pr)
@@ -18,7 +18,11 @@ end
     pr = PeakResults([], [], [], [], reshape([], 0, 2))
     @test isempty(pr)
     @test length(pr) == 0
-    
+
+end
+
+@testset "getindex" begin
+
     indices = [0, 2, 4, 6]
     peaks = [1, 3, 5, 7]
     locations = [10, 11, 12, 13]
