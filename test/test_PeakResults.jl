@@ -9,10 +9,10 @@
 
 end
 
-@testset "peakmaxima" begin
+@testset "peakheights" begin
 
     pr = PeakResults([0, 9], [1, 2], [3, 4], [5, 6], [1 2; 3 8])
-    peaks = peakmaxima(pr)
+    peaks = peakheights(pr)
     @test peaks == [1, 2]
 
 end

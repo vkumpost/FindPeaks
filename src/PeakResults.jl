@@ -21,11 +21,11 @@ end
 
 
 """
-`peakmaxima(pr::PeakResults)`
+`peakheights(pr::PeakResults)`
 
 Return peak values (local maxima).
 """
-function peakmaxima(pr::PeakResults)
+function peakheights(pr::PeakResults)
     return pr.peaks
 end
 

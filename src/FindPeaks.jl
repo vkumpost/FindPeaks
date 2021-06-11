@@ -8,7 +8,7 @@ export findindices, findprominences, findwidthbounds
 export findpeaks
 
 export PeakResults
-export peakmaxima, peaklocations, peakprominences, peakwidths
+export peakheights, peaklocations, peakprominences, peakwidths
 export isempty, length, getindex, sort
 
 include("functions.jl")
