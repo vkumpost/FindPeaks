@@ -21,6 +21,36 @@ end
 
 
 """
+`peakmaxima(pr::PeakResults)`
+
+Return peak values (local maxima).
+"""
+function peakmaxima(pr::PeakResults)
+    return pr.peaks
+end
+
+
+"""
+`peaklocations(pr::PeakResults)`
+
+Return peak locations.
+"""
+function peaklocations(pr::PeakResults)
+    return pr.locations
+end
+
+
+"""
+`peakprominences(pr::PeakResults)`
+
+Return peak prominences.
+"""
+function peakprominences(pr::PeakResults)
+    return pr.prominences
+end
+
+
+"""
 `peakwidths(pr::PeakResults)`
 
 Return peak widths.
