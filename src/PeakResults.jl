@@ -21,11 +21,11 @@ end
 
 
 """
-`widths(pr::PeakResults)`
+`peakwidths(pr::PeakResults)`
 
 Return peak widths.
 """
-function widths(pr::PeakResults)
+function peakwidths(pr::PeakResults)
     return [diff(pr.width_bounds, dims = 2)...]
 end
 
