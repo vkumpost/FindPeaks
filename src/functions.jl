@@ -162,7 +162,8 @@ end
     peak first) or "descend" (the largest peak first).
 - `minheight`: Minimum peak height.
 - `minprominence`: Minimum peak prominence.
-- `mindistance`: Minimum distance between neighbouring peaks.
+- `threshold`: Minimum height difference between a peak and the neighboring points.
+- `mindistance`: Minimum distance between neighboring peaks.
 
 **Returns**
 - Struct `PeakResults` holding an array of all peaks and their properties.
@@ -200,6 +201,23 @@ function findpeaks(data::Vector, x=1:length(data); kwargs...)
         minprominence = kwargs[:minprominence]
         prominences = pr.prominences
         inds = prominences .>= minprominence
+        pr = pr[inds]
+    end
+
+    # apply threshold
+    if :threshold in keys(kwargs)
+        threshold = kwargs[:threshold]
+        indices = pr.indices
+        inds = []
+        n = length(indices)
+        for i = 1:n
+            index = indices[i]
+            height_difference = min(data[index] - data[index-1],
+                data[index] - data[index+1])
+            if height_difference >= threshold
+                push!(inds, i)
+            end
+        end
         pr = pr[inds]
     end
 
