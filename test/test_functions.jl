@@ -88,10 +88,23 @@ end
     pr = findpeaks(data; sortstr = "descend")
     @test pr.indices == [15, 4, 9]
 
-    pr = findpeaks(data; minprominence = 3)
-    @test pr.indices == [4, 15]
-
     pr = findpeaks(data; mindistance = 8)
     @test pr.indices == [4, 15]
+
+    @testset "minprominence" begin
+
+        data = [1, 1, 2, 3, 2, 4, 1, 1, 2, 3, 2, 3, 4, 5, 6, 4, 1]
+        pr = findpeaks(data; minprominence = 3)
+        @test pr.indices == [6, 15]
+
+    end
+
+    @testset "minheight" begin
+
+        data = [1, 1, 2, 3, 2, 1, 1, 1, 2, 2, 2, 1, 3, 3, 6, 4, 1]
+        pr = findpeaks(data; minheight = 3)
+        @test pr.indices == [4, 15]
+
+    end
 
 end
