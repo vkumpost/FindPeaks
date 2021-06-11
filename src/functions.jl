@@ -164,6 +164,8 @@ end
 - `minprominence`: Minimum peak prominence.
 - `threshold`: Minimum height difference between a peak and the neighboring points.
 - `mindistance`: Minimum distance between neighboring peaks.
+- `minwidth`: Minimum peak width.
+- `maxwidth`: Maximum peak width.
 
 **Returns**
 - Struct `PeakResults` holding an array of all peaks and their properties.
@@ -215,6 +217,36 @@ function findpeaks(data::Vector, x=1:length(data); kwargs...)
             height_difference = min(data[index] - data[index-1],
                 data[index] - data[index+1])
             if height_difference >= threshold
+                push!(inds, i)
+            end
+        end
+        pr = pr[inds]
+    end
+
+    # apply minwidth
+    if :minwidth in keys(kwargs)
+        minwidth = kwargs[:minwidth]
+        widths = peakwidths(pr)
+        inds = []
+        n = length(widths)
+        for i = 1:n
+            width = widths[i]
+            if width >= minwidth
+                push!(inds, i)
+            end
+        end
+        pr = pr[inds]
+    end
+
+    # apply maxwidth
+    if :maxwidth in keys(kwargs)
+        maxwidth = kwargs[:maxwidth]
+        widths = peakwidths(pr)
+        inds = []
+        n = length(widths)
+        for i = 1:n
+            width = widths[i]
+            if width <= maxwidth
                 push!(inds, i)
             end
         end
