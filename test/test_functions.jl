@@ -74,13 +74,24 @@ end
     data = [0, 1, 2, 3, 2, 1, 0, 1, 2, 2, 2, 0, 3, 3, 6, 4, 0]
     pr = findpeaks(data)
     @test pr.indices == [4, 9, 15]
+    @test pr.peaks == [3, 2, 6]
+    @test pr.locations == [4, 9, 15]
     @test pr.prominences == [3, 2, 6]
     @test all(pr.width_bounds .≈ [2.5 5.5; 8.0 11.5; 14.0 16.25])
+
+    pr = findpeaks(data; npeaks = 2)
+    @test pr.indices == [4, 9]
+
+    pr = findpeaks(data; sortstr = "ascend")
+    @test pr.indices == [9, 4, 15]
+
+    pr = findpeaks(data; sortstr = "descend")
+    @test pr.indices == [15, 4, 9]
 
     pr = findpeaks(data; minprominence = 3)
     @test pr.indices == [4, 15]
 
-    pr = findpeaks(data; npeaks = 2)
-    @test pr.indices == [4, 9]
+    pr = findpeaks(data; mindistance = 8)
+    @test pr.indices == [4, 15]
 
 end
