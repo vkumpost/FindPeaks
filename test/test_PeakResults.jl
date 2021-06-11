@@ -9,6 +9,30 @@
 
 end
 
+@testset "peakmaxima" begin
+
+    pr = PeakResults([0, 9], [1, 2], [3, 4], [5, 6], [1 2; 3 8])
+    peaks = peakmaxima(pr)
+    @test peaks == [1, 2]
+
+end
+
+@testset "peaklocations" begin
+
+    pr = PeakResults([0, 9], [1, 2], [3, 4], [5, 6], [1 2; 3 8])
+    locations = peaklocations(pr)
+    @test locations == [3, 4]
+
+end
+
+@testset "peakprominences" begin
+
+    pr = PeakResults([0, 9], [1, 2], [3, 4], [5, 6], [1 2; 3 8])
+    prominences = peakprominences(pr)
+    @test prominences == [5, 6]
+
+end
+
 @testset "peakwidths" begin
     
     pr = PeakResults([0, 9], [1, 2], [3, 4], [5, 6], [1 2; 3 8])
