@@ -115,4 +115,20 @@ end
 
     end
 
+    @testset "minwidth" begin
+
+        data = [0, 1, 0, 0, 2, 2, 2, 0, 1, 1, 0, 6, 0]
+        pr = findpeaks(data; minwidth = 2)
+        @test pr.indices == [5, 9]
+
+    end
+
+    @testset "maxwidth" begin
+
+        data = [0, 1, 0, 0, 2, 2, 2, 0, 1, 1, 0, 6, 6, 0]
+        pr = findpeaks(data; maxwidth = 2)
+        @test pr.indices == [2, 9, 12]
+
+    end
+
 end
