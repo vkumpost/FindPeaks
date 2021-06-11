@@ -107,4 +107,12 @@ end
 
     end
 
+    @testset "threshold" begin
+
+        data = [0, 1, 2, 0, 2, 1, 0, 2, 0, 2, 2, 0, 4, 0]
+        pr = findpeaks(data; threshold = 2)
+        @test pr.indices == [8, 13]
+
+    end
+
 end
