@@ -24,8 +24,11 @@ To make sure everything is ready to go we can run package tests
     using Plots
     
     data = rand(10)
-    pk = findpeaks(data)
-    plot(pk, data)
+    pr = findpeaks(data)
+    plot(pr, data)
 ```
+![image](assets/example_plot.png)
+
+## Usage
 
 For more information see the documentation of the `findpeaks` function.
