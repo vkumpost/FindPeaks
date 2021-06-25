@@ -52,6 +52,8 @@ end
     prominences = []
     width_bounds = findwidthbounds(data, x, indices, prominences)
     @test isempty(width_bounds)
+    width_bounds_2 = findwidthbounds(data, x, indices)
+    @test isempty(width_bounds_2)
 
     data = [0, 1, 2, 3, 2, 1, 0, 1, 2, 2, 2, 0, 3, 3, 6, 4, 0]
     x = 1:length(data)
@@ -59,13 +61,27 @@ end
     prominences = [3, 2, 6]
     width_bounds = findwidthbounds(data, x, indices, prominences)
     @test all(width_bounds .≈ [2.5 5.5; 8.0 11.5; 14.0 16.25])
+    width_bounds_2 = findwidthbounds(data, x, indices)
+    @test all(width_bounds_2 .≈ [2.5 5.5; 8.0 11.5; 14.0 16.25])
 
-    data = [Inf, -14.4, Inf, 14.0, 18.0, -Inf, 12.3]
+    data = [0, -1, -2, -1, -2, -2, 1, 1, 2, 3, 4, 3, 2, 1]
     x = 1:length(data)
-    indices = [3, 5]
-    prominences = [Inf, 4.0]
+    indices = [4, 11]
+    prominences = [1, 3]
     width_bounds = findwidthbounds(data, x, indices, prominences)
-    @test all(width_bounds .≈ [1.0 7.0; 4.5 5.0])
+    @test all(width_bounds .≈ [3.5 4.5; 9.5 12.5])
+    width_bounds_2 = findwidthbounds(data, x, indices)
+    @test all(isnan.(width_bounds_2[1, :]))
+    @test all(width_bounds_2[2, :] .≈ [9.0, 13.0])
+
+    data = [0, 1, 2, 3, 4, 3, 4, 5, 4, 3, 4, 3, 2, 1, 0]
+    x = 1:length(data)
+    indices = [5, 8, 11]
+    prominences = [1, 5, 1]
+    width_bounds = findwidthbounds(data, x, indices, prominences)
+    @test all(width_bounds .≈ [4.5 5.5; 3.5 12.5; 10.5 11.5])
+    width_bounds_2 = findwidthbounds(data, x, indices)
+    @test all(width_bounds_2 .≈ [3.0 6.0; 6.0 10.0; 10.0 13.0])
 
 end
 

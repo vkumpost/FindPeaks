@@ -148,6 +148,77 @@ end
 
 
 """
+`findwidthbounds(data, x, indices)`
+
+Find width bounds using a half height of a peak as a reference.
+"""
+function findwidthbounds(data, x, indices)
+
+    n_indices = length(indices)
+    width_bounds = Matrix{Float64}(undef, n_indices, 2)
+
+    for i_index = 1:n_indices
+
+        current_index = indices[i_index]
+        peak = data[current_index]  # peak
+
+        # for negative peaks return NaNs
+        if peak < 0
+            width_bounds[i_index, :] = [NaN, NaN]
+            continue
+        end
+
+        # reference height at which to measure the peak width
+        height_reference = 0.5 * peak
+
+        # find point to the left from the peak where w_ref intersect data
+        if i_index == 1
+            left_index = 1
+        else
+            i_minimum = argmin(data[indices[i_index-1]:current_index])
+            left_index = indices[i_index-1] + i_minimum -1
+        end
+        for i = current_index:-1:(left_index+1)
+            y1 = data[i]
+            y2 = data[i-1]
+            if y2 <= height_reference <= y1
+                # interpolate the precise point
+                x1 = x[i]
+                xdiff = x1 - x[i-1]
+                left_index = x1 - xdiff / (y2 - y1) * (height_reference - y1)
+                break
+            end
+        end
+
+        # find point to the right from the peak where w_ref intersect data
+        if i_index == n_indices
+            right_index = length(data)
+        else
+            i_minimum = argmin(data[current_index:indices[i_index+1]])
+            right_index = current_index + i_minimum -1
+        end
+        for i = current_index:1:(right_index-1)
+            y1 = data[i]
+            y2 = data[i+1]
+            if y2 <= height_reference <= y1
+                # interpolate the precise point
+                x1 = x[i]
+                xdiff = x[i+1] - x1
+                right_index = x1 + xdiff / (y2 - y1) * (height_reference - y1)
+                break
+            end
+        end
+
+        width_bounds[i_index, :] = [left_index, right_index]
+
+    end
+
+    return width_bounds
+
+end
+
+
+"""
 `findpeaks(data::Vector, x=1:length(data); kwargs...)`
 
 **Argument**
