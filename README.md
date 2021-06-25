@@ -1,6 +1,6 @@
 # FindPeaks
 
-[Julia](https://julialang.org/) package for peak detection inspired by MATLAB's `findpeaks` function. 
+[Julia](https://julialang.org/) package for peak detection inspired by [MATLAB's findpeaks](https://www.mathworks.com/help/signal/ref/findpeaks.html) function. 
 
 The current version can find peaks in a data vector together with their prominences and widths. The peaks can be filtered based on several properties including minimal prominence and height, the minimal distance between the individual peaks, and minimal and maximal width.
 
