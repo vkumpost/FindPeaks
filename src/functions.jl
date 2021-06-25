@@ -175,41 +175,17 @@ function findpeaks(data::Vector, x=1:length(data); kwargs...)
     # find peak indices
     indices = findindices(data)
 
-    # get peaks
-    peaks = data[indices]
-
-    # get locations
-    locations = x[indices]
-
-    # find peak prominences
-    prominences = findprominences(data, indices)
-
-    # find peak width bounds
-    width_bounds = findwidthbounds(data, x, indices, prominences)
-
-    # create Peaks struct
-    pr = PeakResults(indices, peaks, locations, prominences, width_bounds)
-
-    # apply minimum height criterium
+    # apply minimum height
     if :minheight in keys(kwargs)
         minheight = kwargs[:minheight]
-        peaks = pr.peaks
+        peaks = data[indices]
         inds = peaks .>= minheight
-        pr = pr[inds]
-    end
-
-    # apply minimal prominence criterium
-    if :minprominence in keys(kwargs)
-        minprominence = kwargs[:minprominence]
-        prominences = pr.prominences
-        inds = prominences .>= minprominence
-        pr = pr[inds]
+        indices = indices[inds]
     end
 
     # apply threshold
     if :threshold in keys(kwargs)
         threshold = kwargs[:threshold]
-        indices = pr.indices
         inds = []
         n = length(indices)
         for i = 1:n
@@ -220,8 +196,27 @@ function findpeaks(data::Vector, x=1:length(data); kwargs...)
                 push!(inds, i)
             end
         end
-        pr = pr[inds]
+        indices = indices[inds]
     end
+
+    # find peak prominences
+    prominences = findprominences(data, indices)
+
+    # apply minimal prominence
+    if :minprominence in keys(kwargs)
+        minprominence = kwargs[:minprominence]
+        inds = prominences .>= minprominence
+        indices = indices[inds]
+        prominences = prominences[inds]
+    end
+
+    # find peak width bounds
+    width_bounds = findwidthbounds(data, x, indices, prominences)
+
+    # create Peaks struct
+    peaks = data[indices]  # peak heights
+    locations = x[indices]  # peak locations
+    pr = PeakResults(indices, peaks, locations, prominences, width_bounds)
 
     # apply minwidth
     if :minwidth in keys(kwargs)
