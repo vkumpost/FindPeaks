@@ -178,6 +178,7 @@ function findwidthbounds(data, x, indices)
             i_minimum = argmin(data[indices[i_index-1]:current_index])
             left_index = indices[i_index-1] + i_minimum -1
         end
+        left_x = x[left_index]
         for i = current_index:-1:(left_index+1)
             y1 = data[i]
             y2 = data[i-1]
@@ -185,7 +186,7 @@ function findwidthbounds(data, x, indices)
                 # interpolate the precise point
                 x1 = x[i]
                 xdiff = x1 - x[i-1]
-                left_index = x1 - xdiff / (y2 - y1) * (height_reference - y1)
+                left_x = x1 - xdiff / (y2 - y1) * (height_reference - y1)
                 break
             end
         end
@@ -197,6 +198,7 @@ function findwidthbounds(data, x, indices)
             i_minimum = argmin(data[current_index:indices[i_index+1]])
             right_index = current_index + i_minimum -1
         end
+        right_x = x[right_index]
         for i = current_index:1:(right_index-1)
             y1 = data[i]
             y2 = data[i+1]
@@ -204,12 +206,12 @@ function findwidthbounds(data, x, indices)
                 # interpolate the precise point
                 x1 = x[i]
                 xdiff = x[i+1] - x1
-                right_index = x1 + xdiff / (y2 - y1) * (height_reference - y1)
+                right_x = x1 + xdiff / (y2 - y1) * (height_reference - y1)
                 break
             end
         end
 
-        width_bounds[i_index, :] = [left_index, right_index]
+        width_bounds[i_index, :] = [left_x, right_x]
 
     end
 
