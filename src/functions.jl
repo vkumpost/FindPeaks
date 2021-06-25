@@ -233,8 +233,11 @@ end
     peak first) or "descend" (the largest peak first).
 - `minheight`: Minimum peak height.
 - `minprominence`: Minimum peak prominence.
-- `threshold`: Minimum height difference between a peak and the neighboring points.
+- `threshold`: Minimum height difference between a peak and the neighboring
+    points.
 - `mindistance`: Minimum distance between neighboring peaks.
+- `widthreference`: "halfheight" will use half heights, instead of half
+    prominences, as reference heights to calculate the peak widths.
 - `minwidth`: Minimum peak width.
 - `maxwidth`: Maximum peak width.
 
@@ -282,7 +285,16 @@ function findpeaks(data::Vector, x=1:length(data); kwargs...)
     end
 
     # find peak width bounds
-    width_bounds = findwidthbounds(data, x, indices, prominences)
+    if :widthreference in keys(kwargs)
+        widthreference = kwargs[:widthreference]
+        if widthreference == "halfheight"
+            width_bounds = findwidthbounds(data, x, indices)
+        else
+            width_bounds = findwidthbounds(data, x, indices, prominences)
+        end
+    else
+        width_bounds = findwidthbounds(data, x, indices, prominences)
+    end
 
     # create Peaks struct
     peaks = data[indices]  # peak heights

@@ -131,6 +131,16 @@ end
 
     end
 
+    @testset "widthreference" begin
+        
+        data = [0, 1, 2, 3, 4, 3, 4, 5, 4, 3, 4, 3, 2, 1, 0]
+        pr = findpeaks(data, widthreference="halfheight")
+        @test all(pr.width_bounds .≈ [3.0 6.0; 6.0 10.0; 10.0 13.0])
+        pr = findpeaks(data, widthreference="halfprominence")
+        @test all(pr.width_bounds .≈ [4.5 5.5; 3.5 12.5; 10.5 11.5])
+
+    end
+
     @testset "minwidth" begin
 
         data = [0, 1, 0, 0, 2, 2, 2, 0, 1, 1, 0, 6, 0]
