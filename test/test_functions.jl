@@ -104,14 +104,35 @@ end
     pr = findpeaks(data; npeaks = 2)
     @test pr.indices == [4, 9]
 
-    pr = findpeaks(data; sortstr = "ascend")
-    @test pr.indices == [9, 4, 15]
+    @testset "sortstr, sortref" begin
+    
+        data = [0, 1, 2, 3, 2, 1, 0, 1, 2, 2, 2, 0, 3, 3, 6, 4, 0]
+        pr = findpeaks(data; sortstr = "ascend")
+        @test pr.indices == [9, 4, 15]
 
-    pr = findpeaks(data; sortstr = "descend")
-    @test pr.indices == [15, 4, 9]
+        pr = findpeaks(data; sortstr = "descend")
+        @test pr.indices == [15, 4, 9]
 
-    pr = findpeaks(data; mindistance = 8)
-    @test pr.indices == [4, 15]
+        @test_logs (:warn, "sortstr is not specified, sortref will be ignored")
+            findpeaks(data; sortref = "prominences")
+
+        data = [0, 4, 2, 3, 0, 2, 0]
+        pr = findpeaks(data; sortstr = "ascend", sortref = "prominence")
+        @test pr.indices == [4, 6, 2]
+
+        data = [0, 4, 2, 3, 0, 2, 0]
+        pr = findpeaks(data; sortstr = "descend", sortref = "prominence")
+        @test pr.indices == [2, 6, 4]
+
+    end
+
+    @testset "mindistance" begin
+
+        data = [0, 1, 2, 3, 2, 1, 0, 1, 2, 2, 2, 0, 3, 3, 6, 4, 0]
+        pr = findpeaks(data; mindistance = 8)
+        @test pr.indices == [4, 15]
+
+    end
 
     @testset "minprominence" begin
 

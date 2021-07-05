@@ -233,6 +233,9 @@ end
 - `npeaks`: Maximum number of peaks to return.
 - `sortstr`: Sort peaks. Possible options are "ascend" (the smallest
     peak first) or "descend" (the largest peak first).
+- `sortref`: Reference property used to sort the peaks. Possible options are
+    "height" (default) and "prominence". This option is ignored if `sortstr` is
+    not specified.
 - `minheight`: Minimum peak height.
 - `minprominence`: Minimum peak prominence.
 - `threshold`: Minimum height difference between a peak and the neighboring
@@ -365,12 +368,21 @@ function findpeaks(data::Vector, x=1:length(data); kwargs...)
     end
 
     # sort peaks
+    if (:sortref in keys(kwargs)) && !(:sortstr in keys(kwargs))
+        @warn "sortstr is not specified, sortref will be ignored"
+    end
+
     if :sortstr in keys(kwargs)
         sortstr = kwargs[:sortstr]
+        if :sortref in keys(kwargs)
+            sortref = kwargs[:sortref]
+        else
+            sortref = "height"
+        end
         if sortstr == "ascend"
-            pr = sort(pr)
+            pr = sort(pr; ref=sortref)
         elseif sortstr == "descend"
-            pr = sort(pr; rev=true)
+            pr = sort(pr; rev=true, ref=sortref)
         end
     end
 

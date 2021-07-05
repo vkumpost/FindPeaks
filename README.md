@@ -36,6 +36,7 @@ pr = findpeaks(data, x; kwargs...)
 The currently supported keyword arguments are
 - `npeaks`: Maximum number of peaks to return.
 - `sortstr`: Sort peaks. Possible options are `"ascend"` (the smallest peak first) or `"descend"` (the largest peak first).
+- `sortref`: Reference property used to sort the peaks. Possible options are `"height"` (default) and `"prominence"`. This option is ignored if `sortstr` is not specified.
 - `minheight`: Minimum peak height.
 - `minprominence`: Minimum peak prominence.
 - `threshold`: Minimum height difference between a peak and the neighboring points.
