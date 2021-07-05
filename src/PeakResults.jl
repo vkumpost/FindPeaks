@@ -111,7 +111,7 @@ function sort(pr::PeakResults; rev::Bool=false, ref::String="height")
         prominences = pr.prominences
         inds = sortperm(prominences; rev=rev)
     else
-        throw(ArgumentError("ref=$(ref)"))
+        throw(ArgumentError("Unknown value of ref: $(ref)"))
     end
     pr_sorted = pr[inds]
     return pr_sorted
