@@ -100,7 +100,8 @@ end
 
 Return sorted `pr` with peaks sorted from lowest to highest. Use `rev = true` to
     reverse the sorting order. Use `ref` to specify the property that is used to
-    sort the peaks ("height" or "prominence").
+    sort the peaks. The possible options are "height" (default), "prominence",
+    and "location".
 """
 function sort(pr::PeakResults; rev::Bool=false, ref::String="height")
 
@@ -110,6 +111,9 @@ function sort(pr::PeakResults; rev::Bool=false, ref::String="height")
     elseif ref == "prominence"
         prominences = pr.prominences
         inds = sortperm(prominences; rev=rev)
+    elseif ref == "location"
+        locations = pr.locations
+        inds = sortperm(locations; rev=rev)
     else
         throw(ArgumentError("Unknown value of ref: $(ref)"))
     end

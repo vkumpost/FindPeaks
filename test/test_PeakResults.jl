@@ -72,34 +72,42 @@ end
 
 @testset "sort" begin
 
-    indices = [0, 2, 4, 6]
+    indices = [2, 0, 6, 4]
     peaks = [5, 3, 2, 7]
-    locations = [10, 11, 12, 13]
+    locations = [11, 10, 13, 12]
     prominences = [21, 25, 23, 22]
     width_bounds = [1 1; 2 2; 3 3; 4 4]
     pr = PeakResults(indices, peaks, locations, prominences, width_bounds)
 
     pr_sort = sort(pr)
-    @test pr_sort.indices == [4, 2, 0, 6]
+    @test pr_sort.indices == [6, 0, 2, 4]
     @test pr_sort.peaks == [2, 3, 5, 7]
-    @test pr_sort.locations == [12, 11, 10, 13]
+    @test pr_sort.locations == [13, 10, 11, 12]
     @test pr_sort.prominences == [23, 25, 21, 22]
     @test pr_sort.width_bounds == [3 3; 2 2; 1 1; 4 4]
 
     pr_sort_rev = sort(pr; rev=true)
-    @test pr_sort_rev.indices == [6, 0, 2, 4]
+    @test pr_sort_rev.indices == [4, 2, 0, 6]
     @test pr_sort_rev.peaks == [7, 5, 3, 2]
-    @test pr_sort_rev.locations == [13, 10, 11, 12]
+    @test pr_sort_rev.locations == [12, 11, 10, 13]
     @test pr_sort_rev.prominences == [22, 21, 25, 23]
     @test pr_sort_rev.width_bounds == [4 4; 1 1; 2 2; 3 3]
 
     pr_sort_prom = sort(pr; ref="prominence")
-    @test pr_sort_prom.indices == [0, 6, 4, 2]
+    @test pr_sort_prom.indices == [2, 4, 6, 0]
     @test pr_sort_prom.prominences == [21, 22, 23, 25]
 
     pr_sort_prom_rev = sort(pr; rev=true, ref="prominence")
-    @test pr_sort_prom_rev.indices == [2, 4, 6, 0]
+    @test pr_sort_prom_rev.indices == [0, 6, 4, 2]
     @test pr_sort_prom_rev.prominences == [25, 23, 22, 21]
+
+    pr_sort_loc = sort(pr; ref="location")
+    @test pr_sort_loc.indices == [0, 2, 4, 6]
+    @test pr_sort_loc.prominences == [25, 21, 22, 23]
+
+    pr_sort_loc_rev = sort(pr; rev=true, ref="location")
+    @test pr_sort_loc_rev.indices == [6, 4, 2, 0]
+    @test pr_sort_loc_rev.prominences == [23, 22, 21, 25]
 
     @test_throws ArgumentError sort(pr; ref="unknown")
 
